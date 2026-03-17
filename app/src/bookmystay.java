@@ -40,6 +40,7 @@ class SingleRoom extends Room {
         System.out.println("Size: " + getSize() + " sqft");
         System.out.println("Price per night: " + getPrice());
         System.out.println("Available Rooms: " + available);
+        System.out.println();
     }
 }
 
@@ -58,6 +59,7 @@ class DoubleRoom extends Room {
         System.out.println("Size: " + getSize() + " sqft");
         System.out.println("Price per night: " + getPrice());
         System.out.println("Available Rooms: " + available);
+        System.out.println();
     }
 }
 
@@ -76,11 +78,12 @@ class SuiteRoom extends Room {
         System.out.println("Size: " + getSize() + " sqft");
         System.out.println("Price per night: " + getPrice());
         System.out.println("Available Rooms: " + available);
+        System.out.println();
     }
 }
 
 /**
- * RoomInventory using HashMap
+ * RoomInventory (Read-Only Access for Search)
  */
 class RoomInventory {
     private Map<String, Integer> inventory = new HashMap<>();
@@ -97,22 +100,47 @@ class RoomInventory {
 }
 
 /**
- * MAIN CLASS - UseCase3InventorySetup
+ * Search Service (Read-only)
  */
-public class UseCase3InventorySetup {
+class RoomSearchService {
+
+    public void searchAvailableRooms(RoomInventory inventory, Room[] rooms) {
+        System.out.println("Available Rooms:\n");
+
+        for (Room room : rooms) {
+            int available = inventory.getAvailability(room.getType());
+
+            // Filter only available rooms
+            if (available > 0) {
+                room.displayDetails(available);
+            }
+        }
+    }
+}
+
+/**
+ * MAIN CLASS - UseCase4RoomSearch
+ */
+public class bookmystay {
 
     public static void main(String[] args) {
 
-        System.out.println("Hotel Room Inventory Status");
+        System.out.println("=== BookMyStay - Room Search v4.0 ===\n");
 
+        // Initialize inventory
         RoomInventory inventory = new RoomInventory();
 
-        Room single = new SingleRoom();
-        Room doub = new DoubleRoom();
-        Room suite = new SuiteRoom();
+        // Room objects
+        Room[] rooms = {
+                new SingleRoom(),
+                new DoubleRoom(),
+                new SuiteRoom()
+        };
 
-        single.displayDetails(inventory.getAvailability("Single Room"));
-        doub.displayDetails(inventory.getAvailability("Double Room"));
-        suite.displayDetails(inventory.getAvailability("Suite Room"));
+        // Search service
+        RoomSearchService searchService = new RoomSearchService();
+
+        // Perform search (read-only)
+        searchService.searchAvailableRooms(inventory, rooms);
     }
 }
