@@ -99,7 +99,7 @@ class RoomInventory {
 /**
  * MAIN CLASS - UseCase3InventorySetup
  */
-public class UseCase3InventorySetup {
+public class bookmystay {
 
     public static void main(String[] args) {
 
